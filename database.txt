@@ -32,6 +32,8 @@ create table ReservaLab(
     dataFim datetime,
     fkidProfessor int,
     fkidTurma int,
+    fkidLaboratório int,
+    foreign key (fkidLaboratório) references Laboratório (idLaboratório),
     foreign key (fkidProfessor) references Professor (idProfessor),
     foreign key (fkidTurma) references Turma (idTurma)
 );
