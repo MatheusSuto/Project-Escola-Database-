@@ -1,0 +1,21 @@
+create database ProjectEscola
+
+USE ProjectEscola
+
+create table Aluno(
+	idAluno int primary key,
+    nome varchar(50)
+);
+
+create table Professor(
+	idProfessor int primary key,
+    nome varchar(50)
+);
+
+create table Ensino(
+	idEnsino int primary key,
+    fkidProfessor int, 
+    fkidAluno int,
+    foreign key (fkidProfessor) references Professor (idProfessor),
+    foreign key (fkidAluno) references Aluno (idAluno)
+);
