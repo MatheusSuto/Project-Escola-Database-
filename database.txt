@@ -19,3 +19,27 @@ create table Ensino(
     foreign key (fkidProfessor) references Professor (idProfessor),
     foreign key (fkidAluno) references Aluno (idAluno)
 );
+
+create table Laboratório(
+	idLaboratório int primary key,
+    computador int,
+	dataUso date 
+);
+
+create table ReservaLab(
+	idReservaLab int primary key,
+    dataInício datetime,
+    dataFim datetime,
+    fkidProfessor int,
+    fkidTurma int,
+    foreign key (fkidProfessor) references Professor (idProfessor),
+    foreign key (fkidTurma) references Turma (idTurma)
+);
+
+create table Turma(
+	idTurma int primary key,
+    fkidProfessor int, 
+    fkidAluno int,
+    foreign key (fkidProfessor) references Professor (idProfessor),
+    foreign key (fkidAluno) references Aluno (idAluno)
+);
