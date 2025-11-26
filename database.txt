@@ -1,47 +1,90 @@
-create database ProjectEscola
+create database ProjetoBancoDeDados;
 
-USE ProjectEscola
+use ProjetoBancoDeDados;
 
-create table Aluno(
-	idAluno int primary key,
-    nome varchar(50)
+CREATE TABLE Filial (
+	IdFilial int primary key not null,
+    Nome varchar(50) not null,
+    Localização varchar(150) not null,
+	FkIdCardapio int,
+    FkidQuantIng int,
+    foreign key (FkIdCardapio) references Cardapio (IdCardapio),
+    foreign key (FkIdQuantIng) references QuantidadeIngredientes (IdQuantIng)
 );
 
-create table Professor(
-	idProfessor int primary key,
-    nome varchar(50)
+create table QuantidadeIngredientes (
+	IdQuantIng int primary key not null,
+    Tomate int not null,
+    Cebola int not null,
+    Alface int not null,
+    Picles int not null,
+    Pão int not null,
+    Carne int not null,
+    Queijo int not null,
+    Batata int not null    
+    -- Quantidade em Kg --
 );
 
-create table Ensino(
-	idEnsino int primary key,
-    fkidProfessor int, 
-    fkidAluno int,
-    foreign key (fkidProfessor) references Professor (idProfessor),
-    foreign key (fkidAluno) references Aluno (idAluno)
+CREATE TABLE Cardapio (
+	IdCardapio int primary key not null,
+    Nome varchar(50) not null
 );
 
-create table Laboratório(
-	idLaboratório int primary key,
-    computador int,
-	dataUso date 
+create table Produto (
+	IdProduto int primary key not null,
+    Nome varchar(30) not null,
+    FkIdProdInd int,
+    FkIdCombo int,
+    foreign key (FkIdProdInd) references ProdutoIndividual (IdProdInd),
+    foreign key (FkIdCombo) references Combo (IdCombo)
 );
 
-create table ReservaLab(
-	idReservaLab int primary key,
-    dataInício datetime,
-    dataFim datetime,
-    fkidProfessor int,
-    fkidTurma int,
-    fkidLaboratório int,
-    foreign key (fkidLaboratório) references Laboratório (idLaboratório),
-    foreign key (fkidProfessor) references Professor (idProfessor),
-    foreign key (fkidTurma) references Turma (idTurma)
+create table ProdutosCardápio (
+	IdProdC int primary key not null,
+    FkIdCardapio int,
+    FkIdProdInd int,
+    foreign key (FkIdCardapio) references Cardapio (IdCardapio),
+    foreign key (FkIdProdInd) references ProdutoIndividual (IdProdInd)
 );
 
-create table Turma(
-	idTurma int primary key,
-    fkidProfessor int, 
-    fkidAluno int,
-    foreign key (fkidProfessor) references Professor (idProfessor),
-    foreign key (fkidAluno) references Aluno (idAluno)
+create table Combo (
+	IdCombo int primary key not null,
+    Nome varchar (50),
+    FkIdProdInd int,
+    Preço float,
+    foreign key (FkIdProdInd) references ProdutoIndividual (IdProdInd)
 );
+
+create table ProdutoIndividual (
+	IdProdInd int primary key not null,
+    Nome varchar(50),
+    Ingredientes varchar(200),
+    ModoDePreparo varchar(1000),
+    Preço float
+);
+
+create table PedidosProduto (
+	IdPedProd int primary key not null,
+    FkIdPedido int,
+    FkIdProduto int,
+    foreign key (FkIdPedido) references Pedido (IdPedido),
+    foreign key (FkIdProduto) references Produto (IdProduto)
+);
+
+create table Pedido (
+	IdPedido int primary key not null,
+    TotalPagar float
+);
+
+create table Cliente (
+	IdCliente int primary key not null,
+    Nome varchar(20),
+    FkIdPedido int,
+    foreign key (FkIdPedido) references Pedido (Idpedido)
+);
+
+
+insert into Filial (IdFilial, Nome, Localização, FkIdCardapio, FkIdQuantIng) values (1, 'Burgão da Esquina', 'Rebouças, Curitiba-PR', 1, 1);
+insert into Cardapio (IdCardapio, Nome) values (1, 'Cardápio Tradicional');
+insert into QuantidadeIngredientes (IdQuantIng, Tomate, Cebola, Alface, Picles, Pão, Carne, Queijo, Batata) values (1, 50, 30, 5, 15, 30, 50, 10, 25);
+insert into ProdutosCardapio
